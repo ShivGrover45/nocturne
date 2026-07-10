@@ -1,5 +1,7 @@
 from settings import *
 from player import Player
+from tiles import *
+from random import randint
 class Game:
     def __init__(self):
         pygame.init()
@@ -9,8 +11,13 @@ class Game:
         self.running=True
         #group of sprites
         self.all_sprites=pygame.sprite.Group()
+        self.collision_sprites=pygame.sprite.Group()
         #player
-        self.player=Player((400,300),self.all_sprites)
+        self.player=Player((400,300),self.all_sprites,self.collision_sprites)
+        #tiles
+        for x in range(6):
+            i,j=randint(0,WINDOW_WIDTH),randint(0,WINDOW_HEIGHT)
+            Tiles((i,j),(self.all_sprites,self.collision_sprites),(TILE_SIZE,TILE_SIZE))
 
     def run(self):
         while self.running:
