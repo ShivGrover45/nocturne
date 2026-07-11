@@ -21,8 +21,14 @@ class Game:
        # print(map)
         for x,y,img in map.get_layer_by_name('Ground').tiles():
             Ground((x*TILE_SIZE,y*TILE_SIZE),self.all_sprites,img)
+        #exercise for inv collision
+        
+
         for obj in map.get_layer_by_name('Objects'):
             Tiles((obj.x,obj.y),(self.all_sprites,self.collision_sprites),obj.image)
+
+        for obj in map.get_layer_by_name('Collisions'):
+           Tiles((obj.x,obj.y),self.collision_sprites,pygame.Surface((obj.width,obj.height)))
 
     def run(self):
         while self.running:
