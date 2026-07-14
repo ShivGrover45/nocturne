@@ -3,6 +3,7 @@ from player import Player
 from tiles import *
 from random import randint
 from pytmx.util_pygame import load_pygame
+from groups import AllSprites
 class Game:
     def __init__(self):
         pygame.init()
@@ -11,7 +12,7 @@ class Game:
         self.clock=pygame.time.Clock()
         self.running=True
         #group of sprites
-        self.all_sprites=pygame.sprite.Group()
+        self.all_sprites=AllSprites()
         self.collision_sprites=pygame.sprite.Group()
         self.setup()
         #player
@@ -22,13 +23,13 @@ class Game:
         for x,y,img in map.get_layer_by_name('Ground').tiles():
             Ground((x*TILE_SIZE,y*TILE_SIZE),self.all_sprites,img)
         #exercise for inv collision
-        
+        #for obj in map.get_layer_by_name('Collisions'):
+           #Tiles((obj.x,obj.y),self.collision_sprites,pygame.Surface((obj.width,obj.height)))
 
         for obj in map.get_layer_by_name('Objects'):
             Tiles((obj.x,obj.y),(self.all_sprites,self.collision_sprites),obj.image)
 
-        for obj in map.get_layer_by_name('Collisions'):
-           Tiles((obj.x,obj.y),self.collision_sprites,pygame.Surface((obj.width,obj.height)))
+        
 
     def run(self):
         while self.running:
@@ -42,7 +43,7 @@ class Game:
             self.display_surface.fill("#D8A657")
             self.all_sprites.update(dt)
             #drawing chars
-            self.all_sprites.draw(self.display_surface)
+            self.all_sprites.draw(self.player.rect.center)
             pygame.display.update()
         pygame.quit()
 
