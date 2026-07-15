@@ -28,6 +28,9 @@ class Game:
 
         for obj in map.get_layer_by_name('Objects'):
             Tiles((obj.x,obj.y),(self.all_sprites,self.collision_sprites),obj.image)
+        
+        for obj in map.get_layer_by_name('Entities'):
+            print(obj)
 
         
 
