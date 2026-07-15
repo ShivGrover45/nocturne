@@ -1,5 +1,6 @@
 from settings import *
 from player import Player
+from enemies import Enemy
 from tiles import *
 from random import randint
 from pytmx.util_pygame import load_pygame
@@ -16,7 +17,7 @@ class Game:
         self.collision_sprites=pygame.sprite.Group()
         self.setup()
         #player
-        self.player=Player((500,300),self.all_sprites,self.collision_sprites)
+        
     def setup(self):
         map=load_pygame(join("../data","maps","world.tmx"))
        # print(map)
@@ -30,7 +31,11 @@ class Game:
             Tiles((obj.x,obj.y),(self.all_sprites,self.collision_sprites),obj.image)
         
         for obj in map.get_layer_by_name('Entities'):
-            print(obj)
+            if obj.name=='Player':
+                self.player=Player((obj.x,obj.y),self.all_sprites,self.collision_sprites)
+            else:
+                Enemy((obj.x,obj.y),self.all_sprites,self.collision_sprites)
+            
 
         
 
