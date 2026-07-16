@@ -3,10 +3,11 @@ from settings import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self,pos,groups,collision_sprites):
-        super().__init__(groups)
+        super().__init__(groups)    
+        self.load_frames()
         self.image=pygame.image.load(join("../images","player","down","0.png")).convert_alpha() 
         self.rect=self.image.get_frect(center=pos)
-        self.hitbox=self.rect.inflate(-70,-30)
+        self.hitbox=self.rect.inflate(-70,-90)
         self.direction=pygame.math.Vector2()
         self.speed=300
         self.collision_sprites=collision_sprites
@@ -15,6 +16,24 @@ class Player(pygame.sprite.Sprite):
         self.direction.x=int(keys[pygame.K_d])-int(keys[pygame.K_a])
         self.direction.y=int(keys[pygame.K_s])-int(keys[pygame.K_w])
         self.direction=self.direction.normalize() if self.direction.magnitude() else self.direction
+    
+    def load_frames(self):
+       self.frames={
+           'left':[],
+           'right':[],
+           'up':[],
+           'down':[]
+       }
+       for state in self.frames.keys():
+         for folder,sub_folder,frame in walk(join('../images','player')):
+           if frame:
+               for frames in frame:
+                   full_path=join(folder,frames)
+                   surf=pygame.image.load(full_path).convert_alpha()
+                   self.frames[state].append(surf)
+       print(self.frames)          
+               
+
     def move(self,dt):
         #self.rect.x+=self.direction.x*self.speed*dt
         #self.collision('horizontal')
